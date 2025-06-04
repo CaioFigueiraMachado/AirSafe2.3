@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- ... (head original mantido) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirSafe - Proteção contra vazamento de gás e incêndios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #005F73;
+            --primary-dark: #002B36;
+            --secondary: #D90429;
+            --accent: #EAB507;
+            --light: #FFFFFF;
+            --light-gray: #EAEAEA;
+            --dark: #002B36;
+            --blue-light: #078FB2;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #EAB507;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(120deg, #078FB2 0%, #005F73 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: var(--light);
+        }
+
+        .hero h1 {
+            color: var(--light);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: var(--light);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            color: var(--light);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background-color: #b5031f;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: var(--dark);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--blue-light);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Products Section */
+        .products {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+            background-color: var(--light);
+        }
+
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .step-number {
+            background-color: var(--blue-light);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            color: #e0e0e0;
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            z-index: -1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--light);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: var(--light);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: var(--light);
+            background-color: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--blue-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* About Page */
+        .about-section {
+            padding: 80px 0;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .team-section {
+            margin-top: 50px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .team-member {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .team-info {
+            padding: 20px;
+        }
+
+        .team-info h3 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .team-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Contact Page */
+        .contact-section {
+            padding: 80px 0;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .contact-item i {
+            color: var(--blue-light);
+            font-size: 1.2rem;
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+
+        .contact-text h3 {
+            margin: 0 0 5px;
+            font-size: 1.1rem;
+        }
+
+        .contact-text p {
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .contact-form {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Cart Page */
+        .cart-section {
+            padding: 80px 0;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .cart-empty i {
+            font-size: 5rem;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+        }
+
+        .cart-empty h2 {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .cart-table th {
+            background-color: var(--light-gray);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .cart-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            vertical-align: middle;
+        }
+
+        .cart-product {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .cart-product-info h3 {
+            margin: 0 0 5px;
+            font-size: 1.1rem;
+        }
+
+        .cart-product-info p {
+            margin: 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            background-color: var(--light-gray);
+            border: 1px solid #dee2e6;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background-color: #e9ecef;
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+            margin: 0 5px;
+        }
+
+        .remove-btn {
+            color: var(--secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .remove-btn:hover {
+            color: #b5031f;
+        }
+
+        .cart-summary {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .cart-summary h2 {
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .summary-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-top: 1px solid var(--light-gray);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        /* Checkout Section */
+        .checkout-section {
+            padding: 50px 0;
+        }
+
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .payment-methods {
+            margin-top: 30px;
+        }
+
+        .payment-method {
+            margin-bottom: 20px;
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .payment-header.active {
+            border-color: var(--primary);
+            background-color: rgba(7, 143, 178, 0.05);
+        }
+
+        .payment-radio {
+            margin-right: 10px;
+        }
+
+        .payment-label {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .payment-icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+            color: var(--blue-light);
+        }
+
+        .payment-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--light-gray);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .payment-content.active {
+            display: block;
+        }
+
+        .pix-qrcode {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pix-qrcode img {
+            max-width: 200px;
+            margin-bottom: 10px;
+        }
+
+        .copy-code-btn {
+            background-color: var(--light-gray);
+            border: 1px solid #dee2e6;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .copy-code-btn:hover {
+            background-color: #e9ecef;
+        }
+
+        .card-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .card-form .form-group:nth-child(1),
+        .card-form .form-group:nth-child(5) {
+            grid-column: 1 / -1;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .about-content,
+            .contact-container,
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-content > div:first-child {
+                order: 2;
+            }
+            
+            .about-content > div:last-child {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background-color: var(--light);
+                box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+                transition: left 0.3s;
+                z-index: 1000;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .cart-table thead {
+                display: none;
+            }
+            
+            .cart-table, 
+            .cart-table tbody, 
+            .cart-table tr, 
+            .cart-table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .cart-table tr {
+                margin-bottom: 20px;
+                border: 1px solid var(--light-gray);
+                border-radius: 5px;
+                padding: 15px;
+            }
+            
+            .cart-table td {
+                text-align: right;
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .cart-table td:last-child {
+                border-bottom: none;
+            }
+            
+            .cart-table td::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                color: var(--dark);
+            }
+            
+            .cart-product {
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .card-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Page Transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-5 {
+            margin-top: 3rem;
+        }
+
+        .mb-5 {
+            margin-bottom: 3rem;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .align-center {
+            align-items: center;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        /* --- Adiciona os estilos dos cards flutuantes --- */
+        .floating-card-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.15s;
+        }
+        .floating-card-backdrop.active {
+            display: flex;
+        }
+        .floating-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.17);
+            max-width: 420px;
+            width: 90vw;
+            padding: 32px 28px 20px 28px;
+            position: relative;
+            animation: cardIn 0.22s cubic-bezier(0.3,1.2,0.4,1) both;
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(60px) scale(0.98);}
+            to { opacity: 1; transform: translateY(0) scale(1);}
+        }
+        .floating-card .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color .2s;
+        }
+        .floating-card .close-btn:hover {
+            color: var(--secondary);
+        }
+        .floating-card h3 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.4rem;
+        }
+        .floating-card img {
+            width: 100%;
+            max-height: 190px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+        .floating-card .product-price {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .floating-card .desc {
+            color: var(--dark);
+            font-size: 1rem;
+            margin-bottom: 18px;
+        }
+        .floating-card .actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 520px) {
+            .floating-card {
+                padding: 18px 7vw 12px 7vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ... seu HTML acima ... -->
+
+    <!-- Cards Flutuantes para Detalhes dos Produtos -->
+    <div class="floating-card-backdrop" id="detailsModal">
+        <div class="floating-card" id="detailsCard">
+            <button class="close-btn" onclick="closeDetailsCard()"><i class="fas fa-times"></i></button>
+            <img id="detailsImg" src="img/image.png" alt="Produto">
+            <h3 id="detailsTitle">Nome do Produto</h3>
+            <div class="product-price" id="detailsPrice"></div>
+            <div class="desc" id="detailsDesc"></div>
+            <div class="actions">
+                <button class="btn btn-outline" onclick="closeDetailsCard()">Fechar</button>
+                <button class="btn" id="detailsBuyBtn">Comprar</button>
+            </div>
+        </div>
+    </div>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <i class="fas fa-shield-alt"></i>
+                AirSafe
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#" onclick="showPage('home')">Início</a></li>
+                    <li><a href="#" onclick="showPage('about')">Sobre</a></li>
+                    <li><a href="#" onclick="showPage('contact')">Contato</a></li>
+                    <li>
+                        <a href="#" class="cart-icon" onclick="showPage('cart')">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="container">
+                <h1>Proteja sua casa contra vazamento de gás e incêndios</h1>
+                <p>AirSafe monitora sua casa 24h e avisa você em tempo real no caso de qualquer perigo. Segurança automatizada para sua tranquilidade.</p>
+                <a href="#products" class="btn" onclick="scrollToSection('products')">Comprar agora</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Por que escolher o AirSafe?</h2>
+                    <p>Nosso sensor inteligente oferece proteção completa para sua família</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Tecnologia de ponta</h3>
+                        <p>Sensores avançados que detectam com precisão vazamentos de gás e princípios de incêndio.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h3>Alertas instantâneos</h3>
+                        <p>Receba notificações em tempo real no seu celular em caso de emergência.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>Automação inteligente</h3>
+                        <p>O sistema abre janelas automaticamente em caso de vazamento de gás.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Instalação fácil</h3>
+                        <p>Instale você mesmo em minutos, sem necessidade de técnicos especializados.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Como o AirSafe funciona?</h2>
+                    <p>Tecnologia simples e eficiente para proteger o que mais importa</p>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Detecção</h3>
+                        <p>Sensores avançados monitoram constantemente o ambiente para detectar vazamentos de gás ou fumaça.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Alerta</h3>
+                        <p>Em caso de detecção, o sistema envia imediatamente um alerta via SMS para seu celular.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Ação</h3>
+                        <p>O sistema abre automaticamente as janelas para ventilação em caso de vazamento de gás.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="products" id="products">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nossos Produtos</h2>
+                    <p>Escolha a melhor opção para proteger sua família</p>
+                </div>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <img src="img/image.png" alt="AirSafe Basic" class="product-image">
+                        <div class="product-info">
+                            <h3>AirSafe Basic</h3>
+                            <p>Detector de gás com alertas via SMS</p>
+                            <div class="product-price">R$ 143,00</div>
+                            <div class="product-actions">
+                                <button class="btn btn-outline" onclick="addToCart('AirSafe Basic', 143.00, 'https://via.placeholder.com/400x300/078FB2/FFFFFF?text=AirSafe+Basic')">Detalhes</button>
+                                <button class="btn" onclick="addToCart('AirSafe Basic', 143.00, 'https://via.placeholder.com/400x300/078FB2/FFFFFF?text=AirSafe+Basic')">Comprar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="img/image.png" alt="AirSafe Plus" class="product-image">
+                        <div class="product-info">
+                            <h3>AirSafe Plus</h3>
+                            <p>Detector de gás e fumaça com automação de janelas</p>
+                            <div class="product-price">R$ 199,00</div>
+                            <div class="product-actions">
+                                <button class="btn btn-outline" onclick="addToCart('AirSafe Plus', 199.00, 'https://via.placeholder.com/400x300/005F73/FFFFFF?text=AirSafe+Plus')">Detalhes</button>
+                                <button class="btn" onclick="addToCart('AirSafe Plus', 199.00, 'https://via.placeholder.com/400x300/005F73/FFFFFF?text=AirSafe+Plus')">Comprar</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-title">
+                    <h2>O que nossos clientes dizem</h2>
+                    <p>Depoimentos de quem já utiliza o AirSafe</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            <p>O AirSafe salvou minha família de um vazamento de gás enquanto estávamos dormindo, graças ao SMS.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="img/bryan pietro.jpg" alt="Bryan Oliveira">
+                            <div class="author-info">
+                                <h4>Bryan Oliveira</h4>
+                                <p>São Paulo, SP</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            <p>Instalação super fácil, me sinto muito mais seguro sabendo que tenho o AirSafe monitorando minha casa.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="img/rbertin.jpg" alt="Roberto Alves">
+                            <div class="author-info">
+                                <h4>Roberto Alves</h4>
+                                <p>Rio de Janeiro, RJ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            <p>Comprei para meus pais idosos e fico tranquilo sabendo que eles estão protegidos. O suporte técnico é excelente!</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="img/coimbra neves1.jpg" alt="Arthur Neves">
+                            <div class="author-info">
+                                <h4>Arthur Neves</h4>
+                                <p>Belo Horizonte, MG</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <section class="about-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Sobre o AirSafe</h2>
+                    <p>Transformando segurança em tranquilidade!</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Somos alunos do 2º ano do ensino médio fazendo o curso do SENAI de Desenvolvimento de Sistemas. O AirSafe nasceu como um projeto escolar que se transformou em uma solução real para um problema que afeta muitas famílias.</p>
+                        <p>Nossa missão é criar tecnologias acessíveis que possam salvar vidas e proporcionar tranquilidade para as famílias brasileiras.</p>
+                        <h3 class="mt-5">Nossos diferenciais:</h3>
+                        <ul>
+                            <li>Tecnologia de ponta para proteger sua família</li>
+                            <li>Alertas instantâneos e automação inteligente</li>
+                            <li>Instalação fácil e suporte dedicado</li>
+                            <li>Segurança acessível para todos</li>
+                        </ul>
+                    </div>
+                    <div class="video-container">
+                        <!-- Placeholder para o vídeo pitch -->
+                       <iframe width="1310" height="737" src="https://www.youtube.com/embed/IOTWu05fC_0" title="Conheça o AirShield" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+                
+                <div class="mt-5">
+                    <h2 class="text-center mb-5">Como o AirSafe funciona?</h2>
+                    <p>O AirSafe é um sensor inteligente capaz de identificar vazamentos de gás e incêndios. Em caso de vazamento, o sensor envia um alerta via SMS ao dono da casa e abre automaticamente as janelas para ventilação. Se detectar um incêndio, ele também notifica o proprietário para que acione os bombeiros rapidamente. Com tecnologia avançada e automação eficiente, a AirSafe proporciona mais segurança e tranquilidade para os lares.</p>
+                </div>
+                
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <section class="contact-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Entre em Contato</h2>
+                    <p>Estamos aqui para ajudar você</p>
+                </div>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>Fale Conosco</h2>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="contact-text">
+                                    <h3>Endereço</h3>
+                                    <p>Av. Monsenhor Theodomiro Lobo, 100 - Caçapava/SP</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone-alt"></i>
+                                <div class="contact-text">
+                                    <h3>Telefone</h3>
+                                    <p>(12) 34567-8901</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div class="contact-text">
+                                    <h3>Email</h3>
+                                    <p>airsafe.cpv@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-clock"></i>
+                                <div class="contact-text">
+                                    <h3>Horário de Atendimento</h3>
+                                    <p>Segunda a Sexta: 9h às 18h</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <h2>Envie uma Mensagem</h2>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Nome</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Assunto</label>
+                                <input type="text" id="subject" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Mensagem</label>
+                                <textarea id="message" class="form-control" required></textarea>
+                            </div>
+                            <button type="submit" class="btn w-100">Enviar Mensagem</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="cart" class="page">
+        <section class="cart-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Seu Carrinho</h2>
+                    <p>Revise seus itens antes de finalizar a compra</p>
+                </div>
+                
+                <div id="cartEmpty" class="cart-empty">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h2>Seu carrinho está vazio</h2>
+                    <p>Adicione produtos ao carrinho para continuar.</p>
+                    <a href="#" class="btn mt-5" onclick="showPage('home')">Continuar Comprando</a>
+                </div>
+                
+                <div id="cartContent" style="display: none;">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Preço</th>
+                                <th>Quantidade</th>
+                                <th>Total</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cartItems">
+                            <!-- Cart items will be added here dynamically -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="d-flex justify-between align-center">
+                        <a href="#" class="btn btn-outline" onclick="showPage('home')">Continuar Comprando</a>
+                        <a href="#" class="btn" onclick="showCheckout()">Finalizar Compra</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Checkout Section -->
+        <section class="checkout-section" id="checkoutSection" style="display: none;">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Finalizar Compra</h2>
+                    <p>Complete suas informações para concluir o pedido</p>
+                </div>
+                
+                <div class="checkout-container">
+                    <div>
+                        <div class="cart-summary">
+                            <h2>Resumo do Pedido</h2>
+                            <div id="orderSummary">
+                                <!-- Order summary will be added here dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="payment-methods">
+                            <h2>Formas de Pagamento</h2>
+                            
+                            <div class="payment-method">
+                                <div class="payment-header" onclick="togglePayment('pix')">
+                                    <input type="radio" name="payment" id="pixPayment" class="payment-radio" checked>
+                                    <label for="pixPayment" class="payment-label">
+                                        <i class="fas fa-qrcode payment-icon"></i>
+                                        <span>Pix</span>
+                                    </label>
+                                </div>
+                                <div class="payment-content active" id="pixContent">
+                                    <p>Escaneie o QR Code abaixo ou copie o código para pagar com Pix:</p>
+                                    <div class="pix-qrcode">
+                                        <img src="img/Pagamento pix.png" alt="QR Code Pix">
+                                        <p>Código Pix:</p>
+                                        <div class="d-flex justify-between align-center">
+                                            <code>airsafe.cpv@gmail.com</code>
+                                            <button class="copy-code-btn" onclick="copyPixCode()">Copiar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <div class="payment-header" onclick="togglePayment('boleto')">
+                                    <input type="radio" name="payment" id="boletoPayment" class="payment-radio">
+                                    <label for="boletoPayment" class="payment-label">
+                                        <i class="fas fa-barcode payment-icon"></i>
+                                        <span>Boleto Bancário</span>
+                                    </label>
+                                </div>
+                                <div class="payment-content" id="boletoContent">
+                                    <p>Gere o boleto e pague em qualquer banco ou casa lotérica:</p>
+                                    <div class="text-center mt-5 mb-5">
+                                        <i class="fas fa-barcode" style="font-size: 5rem; color: var(--gray);"></i>
+                                        <p class="mt-5">Vencimento em 3 dias úteis</p>
+                                    </div>
+                                    <button class="btn w-100" onclick="generateBoleto()">Gerar Boleto</button>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <div class="payment-header" onclick="togglePayment('card')">
+                                    <input type="radio" name="payment" id="cardPayment" class="payment-radio">
+                                    <label for="cardPayment" class="payment-label">
+                                        <i class="fas fa-credit-card payment-icon"></i>
+                                        <span>Cartão de Crédito</span>
+                                    </label>
+                                </div>
+                                <div class="payment-content" id="cardContent">
+                                    <form class="card-form">
+                                        <div class="form-group">
+                                            <label for="cardNumber">Número do Cartão</label>
+                                            <input type="text" id="cardNumber" class="form-control" placeholder="0000 0000 0000 0000" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cardName">Nome no Cartão</label>
+                                            <input type="text" id="cardName" class="form-control" placeholder="Nome como está no cartão" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cardExpiry">Validade</label>
+                                            <input type="text" id="cardExpiry" class="form-control" placeholder="MM/AA" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cardCvv">CVV</label>
+                                            <input type="text" id="cardCvv" class="form-control" placeholder="123" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="installments">Parcelas</label>
+                                            <select id="installments" class="form-control">
+                                                <option value="1">1x sem juros</option>
+                                                <option value="2">2x sem juros</option>
+                                                <option value="3">3x sem juros</option>
+                                                <option value="4">4x sem juros</option>
+                                                <option value="5">5x sem juros</option>
+                                                <option value="6">6x sem juros</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <h2>Informações de Entrega</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="fullName">Nome Completo</label>
+                                <input type="text" id="fullName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Endereço</label>
+                                <input type="text" id="address" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">Cidade</label>
+                                <input type="text" id="city" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">Estado</label>
+                                <input type="text" id="state" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">CEP</label>
+                                <input type="text" id="zipCode" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefone</label>
+                                <input type="text" id="phone" class="form-control" required>
+                            </div>
+                            <button type="button" class="btn w-100 mt-5" onclick="placeOrder()">Finalizar Pedido</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AirSafe</h3>
+                    <p>Transformando segurança em tranquilidade! Somos alunos do 2º ano do ensino médio fazendo o curso do SENAI de Desenvolvimento de Sistemas.</p>
+                    <div class="social-links mt-5">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home')">Início</a></li>
+                        <li><a href="#" onclick="showPage('about')">Sobre</a></li>
+                        <li><a href="#" onclick="showPage('contact')">Contato</a></li>
+                        <li><a href="#" onclick="showPage('cart')">Carrinho</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Produtos</h3>
+                    <ul>
+                        <li><a href="#products">AirSafe Basic</a></li>
+                        <li><a href="#products">AirSafe Plus</a></li>
+                        
+                        
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Monsenhor Theodomiro Lobo, 100 - Caçapava/SP</li>
+                        <li><i class="fas fa-phone-alt"></i> (12) 34567-8901</li>
+                        <li><i class="fas fa-envelope"></i> airsafe.cpv@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AirSafe - Todos os direitos reservados | Projeto SENAI de Desenvolvimento de Sistemas</p>
+            </div>
+        </div>
+    </footer>
+    <!-- ... resto do HTML (footer e scripts) ... -->
+    <script>
+       // Cart functionality
+        let cart = [];
+        
+        function addToCart(name, price, image) {
+            // Check if product already exists in cart
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showNotification(`${name} adicionado ao carrinho!`);
+        }
+        
+        function updateCart() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const cartContent = document.getElementById('cartContent');
+            const orderSummary = document.getElementById('orderSummary');
+            
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Show/hide empty cart message
+            if (totalItems === 0) {
+                cartEmpty.style.display = 'block';
+                cartContent.style.display = 'none';
+                return;
+            } else {
+                cartEmpty.style.display = 'none';
+                cartContent.style.display = 'block';
+            }
+            
+            // Update cart items
+            cartItems.innerHTML = '';
+            let cartTotal = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                cartTotal += itemTotal;
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td data-label="Produto">
+                        <div class="cart-product">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-product-info">
+                                <h3>${item.name}</h3>
+                                <p>Sensor inteligente</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-label="Preço">R$ ${item.price.toFixed(2)}</td>
+                    <td data-label="Quantidade">
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateQuantityInput(${index}, this.value)">
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td data-label="Total">R$ ${itemTotal.toFixed(2)}</td>
+                    <td data-label="Ação">
+                        <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                `;
+                
+                cartItems.appendChild(tr);
+            });
+            
+            // Update order summary if it exists
+            if (orderSummary) {
+                orderSummary.innerHTML = '';
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    
+                    const div = document.createElement('div');
+                    div.className = 'summary-item';
+                    div.innerHTML = `
+                        <span>${item.name} x ${item.quantity}</span>
+                        <span>R$ ${itemTotal.toFixed(2)}</span>
+                    `;
+                    
+                    orderSummary.appendChild(div);
+                });
+                
+                const shipping = 15.00;
+                
+                const shippingDiv = document.createElement('div');
+                shippingDiv.className = 'summary-item';
+                shippingDiv.innerHTML = `
+                    <span>Frete</span>
+                    <span>R$ ${shipping.toFixed(2)}</span>
+                `;
+                orderSummary.appendChild(shippingDiv);
+                
+                const totalDiv = document.createElement('div');
+                totalDiv.className = 'summary-item summary-total';
+                totalDiv.innerHTML = `
+                    <span>Total</span>
+                    <span>R$ ${(cartTotal + shipping).toFixed(2)}</span>
+                `;
+                orderSummary.appendChild(totalDiv);
+            }
+        }
+        
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity < 1) {
+                cart[index].quantity = 1;
+            }
+            
+            updateCart();
+        }
+        
+        function updateQuantityInput(index, value) {
+            const quantity = parseInt(value);
+            
+            if (quantity < 1) {
+                cart[index].quantity = 1;
+            } else {
+                cart[index].quantity = quantity;
+            }
+            
+            updateCart();
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+        
+        function showCheckout() {
+            document.getElementById('checkoutSection').style.display = 'block';
+            window.scrollTo(0, document.getElementById('checkoutSection').offsetTop - 100);
+        }
+        
+        function togglePayment(method) {
+            // Hide all payment contents
+            document.querySelectorAll('.payment-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.payment-header').forEach(header => {
+                header.classList.remove('active');
+            });
+            
+            // Show selected payment content
+            document.getElementById(`${method}Content`).classList.add('active');
+            document.getElementById(`${method}Payment`).checked = true;
+            document.getElementById(`${method}Payment`).parentElement.classList.add('active');
+        }
+        
+        function copyPixCode() {
+            const pixCode = "00020126580014BR.GOV.BCB.PIX0136example.com/pix/v2/123456789";
+            navigator.clipboard.writeText(pixCode).then(() => {
+                showNotification("Código Pix copiado!");
+            });
+        }
+        
+        function generateBoleto() {
+            showNotification("Boleto gerado! Verifique seu email.");
+        }
+        
+        function placeOrder() {
+            showNotification("Pedido realizado com sucesso!");
+            cart = [];
+            updateCart();
+            showPage('home');
+        }
+        
+        // Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            document.getElementById('mainNav').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Update cart if showing cart page
+            if (pageId === 'cart') {
+                updateCart();
+                document.getElementById('checkoutSection').style.display = 'none';
+            }
+        }
+        
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            window.scrollTo({
+                top: section.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification("Mensagem enviada com sucesso!");
+            this.reset();
+        });
+        
+        // Notification system
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'var(--primary)';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '5px';
+            notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+            notification.style.zIndex = '9999';
+            notification.style.transform = 'translateY(100px)';
+            notification.style.opacity = '0';
+            notification.style.transition = 'transform 0.3s, opacity 0.3s';
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // Hide and remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateY(100px)';
+                notification.style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+
+        // ---- Card Flutuante - Dados dos Produtos ----
+        // Dados fictícios de exemplo. Em produção, prefira centralizar isso em um objeto ou vir do backend.
+        const productDetailsData = {
+            "AirSafe Basic": {
+                name: "AirSafe Basic",
+                price: 143,
+                
+                desc: "Detector de gás com alertas via SMS. Ideal para cozinhas e ambientes fechados. Fácil instalação e confiável.",
+            },
+            "AirSafe Plus": {
+                name: "AirSafe Plus",
+                price: 199,
+                
+                desc: "Detector de gás e fumaça, inclui automação de janelas. Proteção extra para sua família, com tecnologia IoT integrada.",
+            }
+        };
+
+        // Abre o card flutuante de detalhes
+        function openDetailsCard(productName) {
+            const data = productDetailsData[productName];
+            if (!data) return;
+
+         
+            document.getElementById('detailsTitle').textContent = data.name;
+            document.getElementById('detailsPrice').textContent = "R$ " + data.price.toFixed(2);
+            document.getElementById('detailsDesc').textContent = data.desc;
+            document.getElementById('detailsBuyBtn').onclick = function() {
+                addToCart(data.name, data.price, data.image);
+                closeDetailsCard();
+            };
+
+            document.getElementById('detailsModal').classList.add('active');
+            // Fecha ao clicar fora do card
+            document.getElementById('detailsModal').onclick = function(e) {
+                if (e.target === this) closeDetailsCard();
+            };
+            document.body.style.overflow = "hidden";
+        }
+        function closeDetailsCard() {
+            document.getElementById('detailsModal').classList.remove('active');
+            document.body.style.overflow = "";
+        }
+
+        // Altera os botões Detalhes para chamar o modal
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".product-card .btn-outline").forEach(btn => {
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    const card = btn.closest('.product-card');
+                    const title = card.querySelector('.product-info h3').textContent.trim();
+                    openDetailsCard(title);
+                }
+            });
+        });
+
+        // ... seu JS original continua ...
+    </script>
+    <!-- ... resto dos scripts ... -->
+</body>
+</html>
