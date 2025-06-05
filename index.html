@@ -139,7 +139,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(120deg, #078FB2 0%, #005F73 100%);
+            background: linear-gradient(120deg, #005072 0%, #003366 100%);
             padding: 80px 0;
             text-align: center;
             color: var(--light);
@@ -321,13 +321,19 @@
             margin-top: 50px;
         }
 
-        .step {
-            flex: 1;
-            min-width: 250px;
-            max-width: 350px;
-            text-align: center;
-            padding: 20px;
-        }
+       .step {
+    flex: 1;
+    min-width: 250px;
+    max-width: 350px;
+    text-align: center;
+    padding: 30px;
+    background-color: var(--light);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid var(--light-gray);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    margin-bottom: 0; /* Remove qualquer margem inferior extra */
+}
 
         .step-number {
             background-color: var(--blue-light);
@@ -342,6 +348,11 @@
             font-weight: bold;
             margin: 0 auto 20px;
         }
+        .step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+}
 
         .step h3 {
             margin-bottom: 15px;
@@ -409,7 +420,7 @@
 
         /* Footer */
         footer {
-            background-color: var(--primary-dark);
+            background: linear-gradient(120deg, #005072 0%, #003366 100%);
             color: var(--light);
             padding: 60px 0 20px;
         }
@@ -1252,47 +1263,7 @@
             </div>
         </section>
 
-        <section class="testimonials">
-            <div class="container">
-                <div class="section-title">
-                    <h2>O que nossos clientes dizem</h2>
-                    <p>Depoimentos de quem já utiliza o AirSafe</p>
-                </div>
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>O AirSafe salvou minha família de um vazamento de gás enquanto estávamos dormindo, graças ao SMS.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <img src="img/bryan pietro.jpg" alt="Bryan Oliveira">
-                            <div class="author-info">
-                                <h4>Bryan Oliveira</h4>
-                                <p>São Paulo, SP</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>Instalação super fácil, me sinto muito mais seguro sabendo que tenho o AirSafe monitorando minha casa.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <img src="img/rbertin.jpg" alt="Roberto Alves">
-                            <div class="author-info">
-                                <h4>Roberto Alves</h4>
-                                <p>Rio de Janeiro, RJ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            <p>Comprei para meus pais idosos e fico tranquilo sabendo que eles estão protegidos. O suporte técnico é excelente!</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <img src="img/coimbra neves1.jpg" alt="Arthur Neves">
-                            <div class="author-info">
-                                <h4>Arthur Neves</h4>
-                                <p>Belo Horizonte, MG</p>
-                            </div>
+        
                         </div>
                     </div>
                 </div>
@@ -1693,7 +1664,7 @@
                 tr.innerHTML = `
                     <td data-label="Produto">
                         <div class="cart-product">
-                            <img src="${item.image}" alt="${item.name}">
+                            <img src="img/image.png" alt="${item.name}">
                             <div class="cart-product-info">
                                 <h3>${item.name}</h3>
                                 <p>Sensor inteligente</p>
