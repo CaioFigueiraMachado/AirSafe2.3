@@ -17,15 +17,16 @@
     <div class="floating-card-backdrop" id="detailsModal">
         <div class="floating-card" id="detailsCard">
             <button class="close-btn" onclick="closeDetailsCard()"><i class="fas fa-times"></i></button>
-            <img id="detailsImg" src="img/image.png" alt="Produto">
+            <img id="detailsImg" src="img/airsafe1certo.png" alt="Produto">
             <h3 id="detailsTitle">Nome do Produto</h3>
-            <div class="product-price" id="detailsPrice"></div>
+            <div class="product-price" id="detailsPrice"    ></div>
             <div class="desc" id="detailsDesc"></div>
             <div class="actions">
                 <button class="btn btn-outline" onclick="closeDetailsCard()">Fechar</button>
                 <button class="btn" id="detailsBuyBtn">Comprar</button>
             </div>
         </div>
+        
     </div>
 </head>
 <body>
@@ -137,7 +138,7 @@
                 </div>
                 <div class="products-grid">
                     <div class="product-card">
-                        <img src="img/image.png" alt="AirSafe Basic" class="product-image">
+                        <img src="img/airsafe1certo.png" alt="AirSafe Basic" class="product-image">
                         <div class="product-info">
                             <h3>AirShield Basic</h3>
                             <p>Detector de gás com alertas via SMS</p>
@@ -149,7 +150,7 @@
                         </div>
                     </div>
                     <div class="product-card">
-                        <img src="img/image.png" alt="AirShield Plus" class="product-image">
+                        <img src="img/airplus2.png" alt="AirShield Plus" class="product-image">
                         <div class="product-info">
                             <h3>AirShield Plus</h3>
                             <p>Detector de gás e fumaça com automação de janelas</p>
@@ -160,14 +161,22 @@
                             </div>
                         </div>
                         
+                        
                     </div>
                     
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="section-title">
+                    <h2 id="carrosel">Mais imagens do nosso produto</h2>
+                    <p>Escolha a melhor opção para proteger sua família</p>
+                </div>
         </section>
-
+        
+        
+  
+                
         
                         </div>
                     </div>
@@ -258,7 +267,7 @@
                         </div>
                         <div class="social-links">
                             <a href="https://www.facebook.com/?locale=pt_BR"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.instagram.com/airsafe.cpv/"><i class="fab fa-instagram"></i></a>
                             <a href="https://x.com/"><i class="fab fa-twitter"></i></a>
                             <a href="https://www.linkedin.com/in/caio13/"><i class="fab fa-linkedin-in"></i></a>
                         </div>
@@ -371,6 +380,7 @@
                                 </div>
                             </div>
                             
+
                             <div class="payment-method">
                                 <div class="payment-header" onclick="togglePayment('boleto')">
                                     <input type="radio" name="payment" id="boletoPayment" class="payment-radio">
@@ -475,7 +485,7 @@
                     <p>Transformando segurança em tranquilidade! Somos alunos do 2º ano do ensino médio fazendo o curso do SENAI de Desenvolvimento de Sistemas.</p>
                     <div class="social-links mt-5">
                         <a href="https://www.facebook.com/?locale=pt_BR"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/airsafe.cpv/"><i class="fab fa-instagram"></i></a>
                         <a href="https://x.com/"><i class="fab fa-twitter"></i></a>
                         <a href="https://www.linkedin.com/in/caio13/"><i class="fab fa-linkedin-in"></i></a>
                     </div>
@@ -564,12 +574,20 @@
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity;
                 cartTotal += itemTotal;
-                
+                // Garante imagem correta para cada produto no carrinho
+                let imgSrc = '';
+                if (item.name === 'AirShield Basic') {
+                    imgSrc = 'img/airsafe1certo.png';
+                } else if (item.name === 'AirShield Plus') {
+                    imgSrc = 'img/airplus2.png';
+                } else {
+                    imgSrc = item.image || 'img/image.png';
+                }
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td data-label="Produto">
                         <div class="cart-product">
-                            <img src="img/image.png" alt="${item.name}">
+                            <img src="${imgSrc}" alt="${item.name}">
                             <div class="cart-product-info">
                                 <h3>${item.name}</h3>
                                 <p>Sensor inteligente</p>
@@ -778,18 +796,19 @@
         }
         
 
+
        
         const productDetailsData = {
             "AirShield Basic": {
                 name: "AirShield Basic",
                 price: 143,
-                
+                image: "img/airsafe1certo.png",
                 desc: "Detector de gás com alertas via SMS. Ideal para cozinhas e ambientes fechados. Fácil instalação e confiável.",
             },
             "AirShield Plus": {
                 name: "AirShield Plus",
                 price: 199,
-                
+                image: "img/airplus2.png",
                 desc: "Detector de gás e fumaça, inclui automação de janelas. Proteção extra para sua família, com tecnologia IoT integrada.",
             }
         };
@@ -799,17 +818,16 @@
             const data = productDetailsData[productName];
             if (!data) return;
 
-         
             document.getElementById('detailsTitle').textContent = data.name;
             document.getElementById('detailsPrice').textContent = "R$ " + data.price.toFixed(2);
             document.getElementById('detailsDesc').textContent = data.desc;
+            document.getElementById('detailsImg').src = data.image;
             document.getElementById('detailsBuyBtn').onclick = function() {
                 addToCart(data.name, data.price, data.image);
                 closeDetailsCard();
             };
 
             document.getElementById('detailsModal').classList.add('active');
-           
             document.getElementById('detailsModal').onclick = function(e) {
                 if (e.target === this) closeDetailsCard();
             };
@@ -829,6 +847,26 @@
                     openDetailsCard(title);
                 }
             });
+        });
+        let carouselIndex = 0;
+        function showCarouselImage(n) {
+            const imgs = document.querySelectorAll('#productCarousel .carousel-img');
+            if (!imgs.length) return;
+            if (n >= imgs.length) carouselIndex = 0;
+            if (n < 0) carouselIndex = imgs.length - 1;
+            imgs.forEach((img, i) => {
+                img.classList.toggle('active', i === carouselIndex);
+            });
+        }
+        function moveCarousel(dir) {
+            const imgs = document.querySelectorAll('#productCarousel .carousel-img');
+            carouselIndex += dir;
+            if (carouselIndex >= imgs.length) carouselIndex = 0;
+            if (carouselIndex < 0) carouselIndex = imgs.length - 1;
+            showCarouselImage(carouselIndex);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            showCarouselImage(carouselIndex);
         });
 
        
