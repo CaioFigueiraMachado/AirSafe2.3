@@ -32,10 +32,10 @@
 <body>
     <header>
         <div class="container header-container">
-            <a href="#" class="logo" onclick="showPage('home')">
-                <i class="fas fa-shield-alt"></i>
-                AirSafe
-            </a>
+           <a href="#" class="logo" onclick="showPage('home')">
+    <img src="img/image-removebg-preview.png" alt="AirSafe Logo" style="height:40px;vertical-align:middle;">
+    AirSafe
+</a>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
@@ -206,14 +206,10 @@
                     </div>
                     <div class="video-container">
                        
-                       <iframe width="1310" height="737" src="https://www.youtube.com/embed/IOTWu05fC_0" title="Conheça o AirShield" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                      <iframe width="928" height="522" src="https://www.youtube.com/embed/KF7i6UzpKZ8" title="Conheça o AirShield!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
                 
-                <div class="mt-5">
-                    <h2 class="text-center mb-5">Como o AirShield funciona?</h2>
-                    <p>O AirShield é um sensor inteligente capaz de identificar vazamentos de gás e incêndios. Em caso de vazamento, o sensor envia um alerta via SMS ao dono da casa e abre automaticamente as janelas para ventilação. Se detectar um incêndio, ele também notifica o proprietário para que acione os bombeiros rapidamente. Com tecnologia avançada e automação eficiente, o AirShield proporciona mais segurança e tranquilidade para os lares.</p>
-                </div>
                 
                 
                         </div>
@@ -670,16 +666,20 @@
         }
         
         function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
+    cart.splice(index, 1);
+    updateCart();
+    // Esconde a área de checkout se o carrinho ficar vazio
+    if (cart.length === 0) {
+        document.getElementById('checkoutSection').style.display = 'none';
+    }
+}
         
-        function showCheckout() {
+    function showCheckout() {
     document.getElementById('checkoutSection').style.display = 'block';
     setTimeout(function() {
-        const paymentSection = document.querySelector('.payment-methods');
-        if (paymentSection) {
-            paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const checkoutSection = document.querySelector('.checkout-section');
+        if (checkoutSection) {
+            checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }, 10);
 }
