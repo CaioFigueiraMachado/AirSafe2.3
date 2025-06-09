@@ -169,8 +169,7 @@
                 </div>
             </div>
             <div class="section-title">
-                    <h2 id="carrosel">Mais imagens do nosso produto</h2>
-                    <p>Escolha a melhor opção para proteger sua família</p>
+               
                 </div>
         </section>
         
@@ -355,7 +354,7 @@
                               
                             </div>
                         </div>
-                        
+                            
                         <div class="payment-methods">
                             <h2>Formas de Pagamento</h2>
                             
@@ -676,25 +675,31 @@
         }
         
         function showCheckout() {
-            document.getElementById('checkoutSection').style.display = 'block';
-            window.scrollTo(0, document.getElementById('checkoutSection').offsetTop - 100);
+    document.getElementById('checkoutSection').style.display = 'block';
+    setTimeout(function() {
+        const paymentSection = document.querySelector('.payment-methods');
+        if (paymentSection) {
+            paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+    }, 10);
+}
         
-        function togglePayment(method) {
-            
-            document.querySelectorAll('.payment-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.payment-header').forEach(header => {
-                header.classList.remove('active');
-            });
-            
-            
-            document.getElementById(`${method}Content`).classList.add('active');
-            document.getElementById(`${method}Payment`).checked = true;
-            document.getElementById(`${method}Payment`).parentElement.classList.add('active');
-        }
+       function togglePayment(method) {
+    document.querySelectorAll('.payment-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.querySelectorAll('.payment-header').forEach(header => {
+        header.classList.remove('active');
+    });
+    document.getElementById(`${method}Content`).classList.add('active');
+    document.getElementById(`${method}Payment`).checked = true;
+    document.getElementById(`${method}Payment`).parentElement.classList.add('active');
+    // Scroll automático para a forma de pagamento selecionada
+    const content = document.getElementById(`${method}Content`);
+    if (content) {
+        content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
         
         function copyPixCode() {
             const pixCode = "00020126580014BR.GOV.BCB.PIX0136example.com/pix/v2/123456789";
