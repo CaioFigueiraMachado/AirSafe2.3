@@ -713,13 +713,37 @@
         }
         
         function placeOrder() {
-            showNotification("Pedido realizado com sucesso!");
-            cart = [];
-            updateCart();
-            showPage('home');
+    // Validação dos campos obrigatórios de entrega
+    const requiredFields = [
+        'fullName',
+        'address',
+        'city',
+        'state',
+        'zipCode',
+        'phone'
+    ];
+    let allFilled = true;
+    let firstInvalid = null;
+    requiredFields.forEach(id => {
+        const input = document.getElementById(id);
+        if (!input || input.value.trim() === '') {
+            allFilled = false;
+            input && input.classList.add('input-error');
+            if (!firstInvalid) firstInvalid = input;
+        } else {
+            input.classList.remove('input-error');
         }
-        
-      
+    });
+    if (!allFilled) {
+        showNotification('Por favor, preencha todos os campos de entrega.');
+        if (firstInvalid) firstInvalid.focus();
+        return;
+    }
+    showNotification("Pedido realizado com sucesso!");
+    cart = [];
+    updateCart();
+    showPage('home');
+}
         function showPage(pageId) {
         
             document.querySelectorAll('.page').forEach(page => {
