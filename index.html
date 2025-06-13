@@ -193,7 +193,7 @@
                     <p>Transformando segurança em tranquilidade!</p>
                 </div>
                 <div class="about-content">
-                    <div class="about-text">
+                    <div class="card-text">
                         <p>Somos alunos do 2º ano do ensino médio fazendo o curso do SENAI de Desenvolvimento de Sistemas. O AirShield nasceu como um projeto escolar que se transformou em uma solução real para um problema que afeta muitas famílias.</p>
                         <p>Nossa missão é criar tecnologias acessíveis que possam salvar vidas e proporcionar tranquilidade para as famílias brasileiras.</p>
                         <h3 class="mt-5">Nossos diferenciais:</h3>
@@ -204,6 +204,7 @@
                             <li>Segurança acessível para todos</li>
                         </ul>
                     </div>
+                    <div class ="card">
                     <div class="video-container">
                        
                       <iframe width="928" height="522" src="https://www.youtube.com/embed/KF7i6UzpKZ8" title="Conheça o AirShield!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -519,384 +520,734 @@
     </footer>
     
     <script>
-       
-        let cart = [];
-        
-        function addToCart(name, price, image) {
-            
-            const existingItem = cart.find(item => item.name === name);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    name: name,
-                    price: price,
-                    image: image,
-                    quantity: 1
-                });
-            }
-            
-            updateCart();
-            showNotification(`${name} adicionado ao carrinho!`);
-        }
-        
-        function updateCart() {
-            const cartCount = document.getElementById('cartCount');
-            const cartItems = document.getElementById('cartItems');
-            const cartEmpty = document.getElementById('cartEmpty');
-            const cartContent = document.getElementById('cartContent');
-            const orderSummary = document.getElementById('orderSummary');
-            
-            
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            
-           
-            if (totalItems === 0) {
-                cartEmpty.style.display = 'block';
-                cartContent.style.display = 'none';
-                return;
-            } else {
-                cartEmpty.style.display = 'none';
-                cartContent.style.display = 'block';
-            }
-            
-            
-            cartItems.innerHTML = '';
-            let cartTotal = 0;
-            
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                cartTotal += itemTotal;
-                // Garante imagem correta para cada produto no carrinho
-                let imgSrc = '';
-                if (item.name === 'AirShield Basic') {
-                    imgSrc = 'img/airsafe1certo.png';
-                } else if (item.name === 'AirShield Plus') {
-                    imgSrc = 'img/airplus2.png';
-                } else {
-                    imgSrc = item.image || 'img/image.png';
-                }
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td data-label="Produto">
-                        <div class="cart-product">
-                            <img src="${imgSrc}" alt="${item.name}">
-                            <div class="cart-product-info">
-                                <h3>${item.name}</h3>
-                                <p>Sensor inteligente</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td data-label="Preço">R$ ${item.price.toFixed(2)}</td>
-                    <td data-label="Quantidade">
-                        <div class="quantity-control">
-                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
-                            <input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateQuantityInput(${index}, this.value)">
-                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
-                        </div>
-                    </td>
-                    <td data-label="Total">R$ ${itemTotal.toFixed(2)}</td>
-                    <td data-label="Ação">
-                        <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                `;
-                
-                cartItems.appendChild(tr);
-            });
-            
-           
-            if (orderSummary) {
-                orderSummary.innerHTML = '';
-                
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    
-                    const div = document.createElement('div');
-                    div.className = 'summary-item';
-                    div.innerHTML = `
-                        <span>${item.name} x ${item.quantity}</span>
-                        <span>R$ ${itemTotal.toFixed(2)}</span>
-                    `;
-                    
-                    orderSummary.appendChild(div);
-                });
-                
-                const shipping = 15.00;
-                
-                const shippingDiv = document.createElement('div');
-                shippingDiv.className = 'summary-item';
-                shippingDiv.innerHTML = `
-                    <span>Frete</span>
-                    <span>R$ ${shipping.toFixed(2)}</span>
-                `;
-                orderSummary.appendChild(shippingDiv);
-                
-                const totalDiv = document.createElement('div');
-                totalDiv.className = 'summary-item summary-total';
-                totalDiv.innerHTML = `
-                    <span>Total</span>
-                    <span>R$ ${(cartTotal + shipping).toFixed(2)}</span>
-                `;
-                orderSummary.appendChild(totalDiv);
-            }
-        }
-        
-        function updateQuantity(index, change) {
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity < 1) {
-                cart[index].quantity = 1;
-            }
-            
-            updateCart();
-        }
-        
-        function updateQuantityInput(index, value) {
-            const quantity = parseInt(value);
-            
-            if (quantity < 1) {
-                cart[index].quantity = 1;
-            } else {
-                cart[index].quantity = quantity;
-            }
-            
-            updateCart();
-        }
-        
-        function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCart();
-    // Esconde a área de checkout se o carrinho ficar vazio
-    if (cart.length === 0) {
-        document.getElementById('checkoutSection').style.display = 'none';
-    }
-}
-        
-    function showCheckout() {
-    document.getElementById('checkoutSection').style.display = 'block';
-    setTimeout(function() {
-        const checkoutSection = document.querySelector('.checkout-section');
-        if (checkoutSection) {
-            checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }, 10);
-}
-        
-       function togglePayment(method) {
-    document.querySelectorAll('.payment-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    document.querySelectorAll('.payment-header').forEach(header => {
-        header.classList.remove('active');
-    });
-    document.getElementById(`${method}Content`).classList.add('active');
-    document.getElementById(`${method}Payment`).checked = true;
-    document.getElementById(`${method}Payment`).parentElement.classList.add('active');
-    // Scroll automático para a forma de pagamento selecionada
-    const content = document.getElementById(`${method}Content`);
-    if (content) {
-        content.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-        
-        function copyPixCode() {
-            const pixCode = "00020126580014BR.GOV.BCB.PIX0136example.com/pix/v2/123456789";
-            navigator.clipboard.writeText(pixCode).then(() => {
-                showNotification("Código Pix copiado!");
-            });
-        }
-        
-        function generateBoleto() {
-            showNotification("Boleto gerado! Verifique seu email.");
-        }
-        
-        function placeOrder() {
-    // Validação dos campos obrigatórios de entrega
-    const requiredFields = [
-        'fullName',
-        'address',
-        'city',
-        'state',
-        'zipCode',
-        'phone'
-    ];
-    let allFilled = true;
-    let firstInvalid = null;
-    requiredFields.forEach(id => {
-        const input = document.getElementById(id);
-        if (!input || input.value.trim() === '') {
-            allFilled = false;
-            input && input.classList.add('input-error');
-            if (!firstInvalid) firstInvalid = input;
-        } else {
-            input.classList.remove('input-error');
-        }
-    });
-    if (!allFilled) {
-        showNotification('Por favor, preencha todos os campos de entrega.');
-        if (firstInvalid) firstInvalid.focus();
-        return;
-    }
-    showNotification("Pedido realizado com sucesso!");
-    cart = [];
-    updateCart();
-    showPage('home');
-}
-        function showPage(pageId) {
-        
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            
-            document.getElementById(pageId).classList.add('active');
-            
-            
-            document.getElementById('mainNav').classList.remove('active');
-            
-           
-            window.scrollTo(0, 0);
-            
-            
-            if (pageId === 'cart') {
-                updateCart();
-                document.getElementById('checkoutSection').style.display = 'none';
-            }
-        }
-        
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            window.scrollTo({
-                top: section.offsetTop - 100,
-                behavior: 'smooth'
-            });
-        }
-        
-      
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.getElementById('mainNav').classList.toggle('active');
-        });
-        
-      
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            showNotification("Mensagem enviada com sucesso!");
-            this.reset();
-        });
-       
-        function showNotification(message) {
-           
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = message;
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.backgroundColor = 'var(--primary)';
-            notification.style.color = 'white';
-            notification.style.padding = '15px 25px';
-            notification.style.borderRadius = '5px';
-            notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-            notification.style.zIndex = '9999';
-            notification.style.transform = 'translateY(100px)';
-            notification.style.opacity = '0';
-            notification.style.transition = 'transform 0.3s, opacity 0.3s';
-            
-        
-            document.body.appendChild(notification);
-            
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateY(0)';
-                notification.style.opacity = '1';
-            }, 10);
-            
-           
-            setTimeout(() => {
-                notification.style.transform = 'translateY(100px)';
-                notification.style.opacity = '0';
-                
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-        
+        function showSweetAlertCompra() { 
 
+            Swal.fire({ 
 
-       
-        const productDetailsData = {
-            "AirShield Basic": {
-                name: "AirShield Basic",
-                price: 143,
-                image: "img/airsafe1certo.png",
-                desc: "Detector de gás com alertas via SMS. Ideal para cozinhas e ambientes fechados. Fácil instalação e confiável.",
-            },
-            "AirShield Plus": {
-                name: "AirShield Plus",
-                price: 199,
-                image: "img/airplus2.png",
-                desc: "Detector de gás e fumaça, inclui automação de janelas. Proteção extra para sua família, com tecnologia IoT integrada.",
-            }
-        };
+                title: 'Compra realizada!', 
+
+                text: 'Seu produto foi adicionado ao carrinho com sucesso.', 
+
+                icon: 'success', 
+
+                confirmButtonText: 'OK' 
+
+            }); 
+
+        } 
 
   
-        function openDetailsCard(productName) {
-            const data = productDetailsData[productName];
-            if (!data) return;
 
-            document.getElementById('detailsTitle').textContent = data.name;
-            document.getElementById('detailsPrice').textContent = "R$ " + data.price.toFixed(2);
-            document.getElementById('detailsDesc').textContent = data.desc;
-            document.getElementById('detailsImg').src = data.image;
-            document.getElementById('detailsBuyBtn').onclick = function() {
-                addToCart(data.name, data.price, data.image);
-                closeDetailsCard();
-            };
+        let cart = []; 
 
-            document.getElementById('detailsModal').classList.add('active');
-            document.getElementById('detailsModal').onclick = function(e) {
-                if (e.target === this) closeDetailsCard();
-            };
-            document.body.style.overflow = "hidden";
-        }
-        function closeDetailsCard() {
-            document.getElementById('detailsModal').classList.remove('active');
-            document.body.style.overflow = "";
-        }
+  
 
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".product-card .btn-outline").forEach(btn => {
-                btn.onclick = function(e) {
-                    e.preventDefault();
-                    const card = btn.closest('.product-card');
-                    const title = card.querySelector('.product-info h3').textContent.trim();
-                    openDetailsCard(title);
-                }
-            });
-        });
-        let carouselIndex = 0;
-        function showCarouselImage(n) {
-            const imgs = document.querySelectorAll('#productCarousel .carousel-img');
-            if (!imgs.length) return;
-            if (n >= imgs.length) carouselIndex = 0;
-            if (n < 0) carouselIndex = imgs.length - 1;
-            imgs.forEach((img, i) => {
-                img.classList.toggle('active', i === carouselIndex);
-            });
-        }
-        function moveCarousel(dir) {
-            const imgs = document.querySelectorAll('#productCarousel .carousel-img');
-            carouselIndex += dir;
-            if (carouselIndex >= imgs.length) carouselIndex = 0;
-            if (carouselIndex < 0) carouselIndex = imgs.length - 1;
-            showCarouselImage(carouselIndex);
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            showCarouselImage(carouselIndex);
-        });
+        function addToCart(name, price, image) { 
+
+            const existingItem = cart.find(item => item.name === name); 
+
+            if (existingItem) { 
+
+                existingItem.quantity += 1; 
+
+            } else { 
+
+                cart.push({ 
+
+                    name: name, 
+
+                    price: price, 
+
+                    image: image, 
+
+                    quantity: 1 
+
+                }); 
+
+            } 
+
+            updateCart(); 
+
+            showNotification(`${name} adicionado ao carrinho!`); 
+
+            showSweetAlertCompra(); // Mostra o SweetAlert2 
+
+        } 
+
+  
+
+        function updateCart() { 
+
+            const cartCount = document.getElementById('cartCount'); 
+
+            const cartItems = document.getElementById('cartItems'); 
+
+            const cartEmpty = document.getElementById('cartEmpty'); 
+
+            const cartContent = document.getElementById('cartContent'); 
+
+            const orderSummary = document.getElementById('orderSummary'); 
+
+  
+
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0); 
+
+            cartCount.textContent = totalItems; 
+
+  
+
+            if (totalItems === 0) { 
+
+                cartEmpty.style.display = 'block'; 
+
+                cartContent.style.display = 'none'; 
+
+                return; 
+
+            } else { 
+
+                cartEmpty.style.display = 'none'; 
+
+                cartContent.style.display = 'block'; 
+
+            } 
+
+  
+
+            cartItems.innerHTML = ''; 
+
+            let cartTotal = 0; 
+
+  
+
+            cart.forEach((item, index) => { 
+
+                const itemTotal = item.price * item.quantity; 
+
+                cartTotal += itemTotal; 
+
+                let imgSrc = ''; 
+
+                if (item.name === 'AirShield Basic') { 
+
+                    imgSrc = 'img/airsafe1certo.png'; 
+
+                } else if (item.name === 'AirShield Plus') { 
+
+                    imgSrc = 'img/airplus2.png'; 
+
+                } else { 
+
+                    imgSrc = item.image || 'img/image.png'; 
+
+                } 
+
+                const tr = document.createElement('tr'); 
+
+                tr.innerHTML = ` 
+
+                    <td data-label="Produto"> 
+
+                        <div class="cart-product"> 
+
+                            <img src="${imgSrc}" alt="${item.name}"> 
+
+                            <div class="cart-product-info"> 
+
+                                <h3>${item.name}</h3> 
+
+                                <p>Sensor inteligente</p> 
+
+                            </div> 
+
+                        </div> 
+
+                    </td> 
+
+                    <td data-label="Preço">R$ ${item.price.toFixed(2)}</td> 
+
+                    <td data-label="Quantidade"> 
+
+                        <div class="quantity-control"> 
+
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button> 
+
+                            <input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateQuantityInput(${index}, this.value)"> 
+
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button> 
+
+                        </div> 
+
+                    </td> 
+
+                    <td data-label="Total">R$ ${itemTotal.toFixed(2)}</td> 
+
+                    <td data-label="Ação"> 
+
+                        <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash-alt"></i></button> 
+
+                    </td> 
+
+                `; 
+
+                cartItems.appendChild(tr); 
+
+            }); 
+
+  
+
+            if (orderSummary) { 
+
+                orderSummary.innerHTML = ''; 
+
+                cart.forEach(item => { 
+
+                    const itemTotal = item.price * item.quantity; 
+
+                    const div = document.createElement('div'); 
+
+                    div.className = 'summary-item'; 
+
+                    div.innerHTML = ` 
+
+                        <span>${item.name} x ${item.quantity}</span> 
+
+                        <span>R$ ${itemTotal.toFixed(2)}</span> 
+
+                    `; 
+
+                    orderSummary.appendChild(div); 
+
+                }); 
+
+                const shipping = 15.00; 
+
+                const shippingDiv = document.createElement('div'); 
+
+                shippingDiv.className = 'summary-item'; 
+
+                shippingDiv.innerHTML = ` 
+
+                    <span>Frete</span> 
+
+                    <span>R$ ${shipping.toFixed(2)}</span> 
+
+                `; 
+
+                orderSummary.appendChild(shippingDiv); 
+
+                const totalDiv = document.createElement('div'); 
+
+                totalDiv.className = 'summary-item summary-total'; 
+
+                totalDiv.innerHTML = ` 
+
+                    <span>Total</span> 
+
+                    <span>R$ ${(cartTotal + shipping).toFixed(2)}</span> 
+
+                `; 
+
+                orderSummary.appendChild(totalDiv); 
+
+            } 
+
+        } 
+
+  
+
+        function updateQuantity(index, change) { 
+
+            cart[index].quantity += change; 
+
+            if (cart[index].quantity < 1) { 
+
+                cart[index].quantity = 1; 
+
+            } 
+
+            updateCart(); 
+
+        } 
+
+  
+
+        function updateQuantityInput(index, value) { 
+
+            const quantity = parseInt(value); 
+
+            if (quantity < 1) { 
+
+                cart[index].quantity = 1; 
+
+            } else { 
+
+                cart[index].quantity = quantity; 
+
+            } 
+
+            updateCart(); 
+
+        } 
+
+  
+
+        function removeFromCart(index) { 
+
+            cart.splice(index, 1); 
+
+            updateCart(); 
+
+            if (cart.length === 0) { 
+
+                document.getElementById('checkoutSection').style.display = 'none'; 
+
+            } 
+
+        } 
+
+  
+
+        function showCheckout() { 
+
+            document.getElementById('checkoutSection').style.display = 'block'; 
+
+            setTimeout(function() { 
+
+                const checkoutSection = document.querySelector('.checkout-section'); 
+
+                if (checkoutSection) { 
+
+                    checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+
+                } 
+
+            }, 10); 
+
+        } 
+
+  
+
+        function togglePayment(method) { 
+
+            document.querySelectorAll('.payment-content').forEach(content => { 
+
+                content.classList.remove('active'); 
+
+            }); 
+
+            document.querySelectorAll('.payment-header').forEach(header => { 
+
+                header.classList.remove('active'); 
+
+            }); 
+
+            document.getElementById(`${method}Content`).classList.add('active'); 
+
+            document.getElementById(`${method}Payment`).checked = true; 
+
+            document.getElementById(`${method}Payment`).parentElement.classList.add('active'); 
+
+            const content = document.getElementById(`${method}Content`); 
+
+            if (content) { 
+
+                content.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+
+            } 
+
+        } 
+
+  
+
+        function copyPixCode() { 
+
+            const pixCode = "00020126580014BR.GOV.BCB.PIX0136example.com/pix/v2/123456789"; 
+
+            navigator.clipboard.writeText(pixCode).then(() => { 
+
+                showNotification("Código Pix copiado!"); 
+
+            }); 
+
+        } 
+
+  
+
+        function generateBoleto() { 
+
+            showNotification("Boleto gerado! Verifique seu email."); 
+
+        } 
+
+  
+
+        function placeOrder() { 
+
+            const requiredFields = [ 
+
+                'fullName', 
+
+                'address', 
+
+                'city', 
+
+                'state', 
+
+                'zipCode', 
+
+                'phone' 
+
+            ]; 
+
+            let allFilled = true; 
+
+            let firstInvalid = null; 
+
+            requiredFields.forEach(id => { 
+
+                const input = document.getElementById(id); 
+
+                if (!input || input.value.trim() === '') { 
+
+                    allFilled = false; 
+
+                    input && input.classList.add('input-error'); 
+
+                    if (!firstInvalid) firstInvalid = input; 
+
+                } else { 
+
+                    input.classList.remove('input-error'); 
+
+                } 
+
+            }); 
+
+            if (!allFilled) { 
+
+                showNotification('Por favor, preencha todos os campos de entrega.'); 
+
+                if (firstInvalid) firstInvalid.focus(); 
+
+                return; 
+
+            } 
+
+            showNotification("Pedido realizado com sucesso!"); 
+
+            cart = []; 
+
+            updateCart(); 
+
+            showPage('home'); 
+
+        } 
+
+  
+
+        function showPage(pageId) { 
+
+            document.querySelectorAll('.page').forEach(page => { 
+
+                page.classList.remove('active'); 
+
+            }); 
+
+            document.getElementById(pageId).classList.add('active'); 
+
+            document.getElementById('mainNav').classList.remove('active'); 
+
+            window.scrollTo(0, 0); 
+
+            if (pageId === 'cart') { 
+
+                updateCart(); 
+
+                document.getElementById('checkoutSection').style.display = 'none'; 
+
+            } 
+
+        } 
+
+  
+
+        function scrollToSection(sectionId) { 
+
+            const section = document.getElementById(sectionId); 
+
+            window.scrollTo({ 
+
+                top: section.offsetTop - 100, 
+
+                behavior: 'smooth' 
+
+            }); 
+
+        } 
+
+  
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() { 
+
+            document.getElementById('mainNav').classList.toggle('active'); 
+
+        }); 
+
+  
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) { 
+
+            e.preventDefault(); 
+
+            showNotification("Mensagem enviada com sucesso!"); 
+
+            this.reset(); 
+
+        }); 
+
+  
+
+        function showNotification(message) { 
+
+            const notification = document.createElement('div'); 
+
+            notification.className = 'notification'; 
+
+            notification.textContent = message; 
+
+            notification.style.position = 'fixed'; 
+
+            notification.style.bottom = '20px'; 
+
+            notification.style.right = '20px'; 
+
+            notification.style.backgroundColor = 'var(--primary)'; 
+
+            notification.style.color = 'white'; 
+
+            notification.style.padding = '15px 25px'; 
+
+            notification.style.borderRadius = '5px'; 
+
+            notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)'; 
+
+            notification.style.zIndex = '9999'; 
+
+            notification.style.transform = 'translateY(100px)'; 
+
+            notification.style.opacity = '0'; 
+
+            notification.style.transition = 'transform 0.3s, opacity 0.3s'; 
+
+  
+
+            document.body.appendChild(notification); 
+
+  
+
+            setTimeout(() => { 
+
+                notification.style.transform = 'translateY(0)'; 
+
+                notification.style.opacity = '1'; 
+
+            }, 10); 
+
+  
+
+            setTimeout(() => { 
+
+                notification.style.transform = 'translateY(100px)'; 
+
+                notification.style.opacity = '0'; 
+
+                setTimeout(() => { 
+
+                    document.body.removeChild(notification); 
+
+                }, 300); 
+
+            }, 3000); 
+
+        } 
+
+  
+
+        const productDetailsData = { 
+
+            "AirShield Basic": { 
+
+                name: "AirShield Basic", 
+
+                price: 144, 
+
+                image: "img/airsafe1certo.png", 
+
+                desc: "Detector de gás com alertas via SMS. Ideal para cozinhas e ambientes fechados. Fácil instalação e confiável.", 
+
+            }, 
+
+            "AirShield Plus": { 
+
+                name: "AirShield Plus", 
+
+                price: 200, 
+
+                image: "img/airplus2.png", 
+
+                desc: "Detector de gás e fumaça, inclui automação de janelas. Proteção extra para sua família, com tecnologia IoT integrada.", 
+
+            } 
+
+        }; 
+
+  
+
+        function openDetailsCard(productName) { 
+
+            const data = productDetailsData[productName]; 
+
+            if (!data) return; 
+
+  
+
+            document.getElementById('detailsTitle').textContent = data.name; 
+
+            document.getElementById('detailsPrice').textContent = "R$ " + data.price.toFixed(2); 
+
+            document.getElementById('detailsDesc').textContent = data.desc; 
+
+            document.getElementById('detailsImg').src = data.image; 
+
+  
+
+            document.getElementById('detailsBuyBtn').onclick = function() { 
+
+                addToCart(data.name, data.price, data.image); 
+
+                closeDetailsCard(); 
+
+            }; 
+
+  
+
+            document.getElementById('detailsModal').classList.add('active'); 
+
+            document.getElementById('detailsModal').onclick = function(e) { 
+
+                if (e.target === this) closeDetailsCard(); 
+
+            }; 
+
+            document.body.style.overflow = "hidden"; 
+
+        } 
+
+        function closeDetailsCard() { 
+
+            document.getElementById('detailsModal').classList.remove('active'); 
+
+            document.body.style.overflow = ""; 
+
+        } 
+
+  
+
+        document.addEventListener("DOMContentLoaded", function() { 
+
+            // Botão de detalhes (modal) 
+
+            document.querySelectorAll(".product-card .btn-outline").forEach(btn => { 
+
+                btn.onclick = function(e) { 
+
+                    e.preventDefault(); 
+
+                    const card = btn.closest('.product-card'); 
+
+                    const title = card.querySelector('.product-info h3').textContent.trim(); 
+
+                    openDetailsCard(title); 
+
+                } 
+
+            }); 
+
+  
+
+            // Botões de Comprar principais (fora do modal) 
+
+            document.querySelectorAll(".product-card .btn").forEach(btn => { 
+
+                if (btn.textContent.trim().toLowerCase() === "comprar") { 
+
+                    btn.onclick = function(e) { 
+
+                        e.preventDefault(); 
+
+                        const card = btn.closest('.product-card'); 
+
+                        const title = card.querySelector('.product-info h3').textContent.trim(); 
+
+                        const price = parseFloat(card.querySelector('.product-price').textContent.replace(/[^\d,]/g, '').replace(',', '.')); 
+
+                        let img = card.querySelector('img').getAttribute('src') || ''; 
+
+                        addToCart(title, price, img); 
+
+                    } 
+
+                } 
+
+            }); 
+
+        }); 
+
+  
+
+        let carouselIndex = 0; 
+
+        function showCarouselImage(n) { 
+
+            const imgs = document.querySelectorAll('#productCarousel .carousel-img'); 
+
+            if (!imgs.length) return; 
+
+            if (n >= imgs.length) carouselIndex = 0; 
+
+            if (n < 0) carouselIndex = imgs.length - 1; 
+
+            imgs.forEach((img, i) => { 
+
+                img.classList.toggle('active', i === carouselIndex); 
+
+            }); 
+
+        } 
+
+        function moveCarousel(dir) { 
+
+            const imgs = document.querySelectorAll('#productCarousel .carousel-img'); 
+
+            carouselIndex += dir; 
+
+            if (carouselIndex >= imgs.length) carouselIndex = 0; 
+
+            if (carouselIndex < 0) carouselIndex = imgs.length - 1; 
+
+            showCarouselImage(carouselIndex); 
+
+        } 
+
+        document.addEventListener('DOMContentLoaded', function() { 
+
+            showCarouselImage(carouselIndex); 
+
+        }); 
+
+ 
+
 
        
     </script>

@@ -959,6 +959,7 @@
             .hero h1 {
                 font-size: 2rem;
             }
+          
             
             .section-title h2 {
                 font-size: 1.8rem;
@@ -1139,3 +1140,66 @@
             .carousel-container { max-width: 95vw; }
             .carousel-img { max-height: 180px; }
         }
+         .notification {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+    }
+    .input-error {
+      border-color: red;
+    }
+    .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.card ul {
+    padding-left: 20px;
+}
+
+.card li {
+    margin-bottom: 8px;
+}
+
+.video-container iframe {
+    border-radius: 12px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.card ul {
+    padding-left: 20px;
+}
+
+.card li {
+    margin-bottom: 8px;
+}
+
+.video-container iframe {
+    border-radius: 12px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
